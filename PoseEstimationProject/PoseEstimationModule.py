@@ -66,8 +66,8 @@ class poseDetector():
 
 
 def main():
-    cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
-    # cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
+    # cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
+    cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
     # cap = cv2.VideoCapture(0) # Camputer Camera
     pTime = 0
     img = detector = poseDetector()
