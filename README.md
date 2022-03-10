@@ -1,3 +1,3 @@
 # RoboticsLab
 
-W'll manage the project here.
+W'll manage the project through this repo.
