@@ -8,8 +8,8 @@ mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh(max_num_faces=2)
 drawSpec = mpDraw.DrawingSpec(thickness=2, circle_radius=1)
 # cap = cv2.VideoCapture('PexelVideo/talk.mp4')  # talk video
-cap = cv2.VideoCapture('PexelVideo/talking.mp4') # talking video
-# cap = cv2.VideoCapture(0) # Camputer Camera
+# cap = cv2.VideoCapture('PexelVideo/talking.mp4') # talking video
+cap = cv2.VideoCapture(0) # Camputer Camera
 pTime = 0
 
 
