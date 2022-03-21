@@ -3,6 +3,7 @@ import numpy as np
 from imutils.object_detection import non_max_suppression
 
 
+
 ## Histogram of Oriented Gradients Detector
 HOGCV = cv2.HOGDescriptor()
 HOGCV.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())

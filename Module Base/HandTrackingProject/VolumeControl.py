@@ -8,8 +8,8 @@ import numpy as np
 import HandTrackingModule as htm
 import math
 from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+# from comtypes import CLSCTX_ALL
+# from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 #############################
 wCam, hCam = 1280, 720
@@ -28,16 +28,16 @@ pTime = 0   # previous timestamp
 detector = htm.handDetector(detectionCon=.7)
 
 
-devices = AudioUtilities.GetSpeakers()
-interface = devices.Activate(
-    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-volume = cast(interface, POINTER(IAudioEndpointVolume))
+# devices = AudioUtilities.GetSpeakers()
+# interface = devices.Activate(
+#     IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+# volume = cast(interface, POINTER(IAudioEndpointVolume))
 # volume.GetMute()
 # volume.GetMasterVolumeLevel()
-volRange = volume.GetVolumeRange()
+# volRange = volume.GetVolumeRange()
 
-minVol = volRange[0]
-maxVol = volRange[1]
+# minVol = volRange[0]
+# maxVol = volRange[1]
 
 
 
@@ -61,11 +61,11 @@ while True:
         # print(length)
         # Finger range is [50,300]
         # Volume range is [-64,0]
-        vol = np.interp(length,[50,300],[minVol,maxVol])
+        # vol = np.interp(length,[50,300],[minVol,maxVol])
         volb = np.interp(length, [50, 300], [400, 150])
         volp = np.interp(length, [50, 300], [0, 100])
         print(vol)
-        volume.SetMasterVolumeLevel(vol, None)
+        # volume.SetMasterVolumeLevel(vol, None)
 
         if length <50:
             cv2.circle(img, (cx, cy), 10, (0, 255, 0), 3, cv2.FILLED)

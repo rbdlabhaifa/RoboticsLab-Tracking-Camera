@@ -9,8 +9,9 @@ mpPose = mp.solutions.pose
 pose = mpPose.Pose()
 
 # cap = cv2.VideoCapture('PexelsVideos/dancing.mp4') # dancing video
-cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
-# cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
+# cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
+# cap = cv2.VideoCapture('D:\GitHub\RoboticsLabProject\RoboticsLab\PedestriansPics\multiple.jpg') # walking video
+cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
 pTime = 0
 
