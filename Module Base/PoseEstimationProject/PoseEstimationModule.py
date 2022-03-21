@@ -11,7 +11,8 @@ import math
 
 class poseDetector():
 
-    def __init__(self, mode=False, complex=1, smooth=True, detectionCon=0.5, trackCon=0.5):
+    def __init__(self, mode=False, complex=1, smooth=True, detectionCon=0.5, trackCon=0.5, min_detection_confidence=0.5,
+    min_tracking_confidence=0.5):
 
         self.mode = mode
         self.complex = complex
@@ -21,7 +22,9 @@ class poseDetector():
 
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
-        self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon)
+        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon)
+        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon,min_detection_confidence,min_tracking_confidence)
+        self.pose = self.mpPose.Pose()
 
     def findPose(self, img, draw=True):
 
@@ -29,7 +32,7 @@ class poseDetector():
         self.results = self.pose.process(imgRGB)
 
         if self.results.pose_landmarks:
-            if False:# false insteed of ddaw for new way
+            if draw:# false insteed of ddaw for new way
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
         return img
 
