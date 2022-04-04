@@ -6,25 +6,65 @@ import PoseEstimationModule as pem
 # cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
 # cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
-# cap = cv2.VideoCapture(r'PexelsVideos/lecture.mp4') # lecture video
-cap = cv2.VideoCapture(r'PexelsVideos/dancing_couple.mp4') # lecture video
+# cap = cv2.VideoCapture(r'PexelsVideos/dancing_couple.mp4') # lecture video
 # cap = cv2.VideoCapture(r'../PedestriansPics/alone.jpg') # walking video
 # cap = cv2.VideoCapture(r'../PedestriansPics/hide1.jpg') # walking video
 # cap = cv2.VideoCapture(r'../PedestriansPics/multiple.jpg') # walking video
+cap = cv2.VideoCapture(r'PexelsVideos/lecture.mp4') # lecture video
 
+
+def hotZones(frame, height, width, maxLength, midPoint):
+    ''':param frame- the frame img , height - the height of the frame, width - the width of the frame,
+     maxLength- the max val of the object bbox length, midPoint- the mid point of the object
+     :return move- the number of pixels that the camera mast move to keep the object in the frame
+
+    compute the number of pixels to go move the camera to keep the object in the frame
+    '''
+    move=0
+    ratio=maxLength/width
+    leftBorder=width*ratio
+    moveToLeftBorder=leftBorder+maxLength
+    rightBorder = width * (1-ratio)
+    moveToRightBorder=rightBorder-maxLength
+    # print(leftBorder, rightBorder)
+
+    if moveToRightBorder<=moveToLeftBorder:
+        moveToLeftBorder=width/2
+        moveToRightBorder=width/2
+
+    if midPoint[0]<leftBorder:
+        move=moveToLeftBorder-midPoint[0]
+    elif midPoint[0]>rightBorder:
+        move=midPoint[0]-moveToRightBorder
+
+    print(moveToLeftBorder, midPoint[0])
+
+
+    #draw zones
+    cv2.line(img=frame, pt1=(int(leftBorder), 0), pt2=(int(leftBorder), height), color=(0, 0, 255), thickness=5, lineType=8, shift=0)
+    cv2.line(img=frame, pt1=(int(rightBorder), 0), pt2=(int(rightBorder), height), color=(0, 0, 255), thickness=5, lineType=8, shift=0)
+
+    # draw lines to go to
+    cv2.line(img=frame, pt1=(int(moveToLeftBorder), 0), pt2=(int(moveToLeftBorder), height), color=(0, 255, 255), thickness=5, lineType=8, shift=0)
+    cv2.line(img=frame, pt1=(int(moveToRightBorder), 0), pt2=(int(moveToRightBorder), height), color=(0, 255, 255), thickness=5, lineType=8, shift=0)
+
+    return move
 
 pTime = 0
+
 img = detector = pem.poseDetector()
 
 while True:
     success, img = cap.read()
-    detector.findPose(img)
+    height, width , c = img.shape
+
+    detector.findPose(img, True)
     lmList = detector.findPosition(img, draw = False)
     if len(lmList)!=0:
-        print(lmList[12]) # right shoulder
+        # print(lmList[12]) # right shoulder
         # print(lmList[11]) # left shoulder
         # print(lmList[24]) # right hip
-        print(lmList[23]) # left hip
+        # print(lmList[23]) # left hip
         # x1,y1,x4,y4 = lmList[12][1],lmList[12][2],lmList[23][1],lmList[23][2]
         rSholder = lmList[12][1],lmList[12][2]
         lSholder = lmList[11][1],lmList[11][2]
@@ -34,12 +74,14 @@ while True:
         xMin = min(rSholder[0], lSholder[0], rHip[0], lHip[0])
         yMax = max(rSholder[1], lSholder[1], rHip[1], lHip[1])
         yMin = min(rSholder[1], lSholder[1], rHip[1], lHip[1])
-
+        w,h = (xMax-xMin), (yMax-yMin)
+        maxLength=max(h,w)
+        midPoint=(xMin+w/2, yMin+h/2) # mid point of the bbox of the character
+        hotZones(img, height, width, maxLength, midPoint)
         # x,y = x4,y4
         # w,h = abs(x1-x4),abs(y1-y4)
-        w,h = (xMax-xMin), (yMax-yMin)
         # cv2.rectangle(img, (x+30, y+30), (x1-30,y1-30), (139, 34, 104), 2)
-        cv2.rectangle(img, (xMax, yMax), (xMin,yMin), (139, 34, 104), 2)
+        cv2.rectangle(img, (xMax, yMax), (xMin,yMin), (139, 34, 104), 2) 
         # cv2.circle(img, (lmList[14][1], lmList[14][2]), 5, (255, 0, 150), cv2.FILLED)
 
     cTime = time.time()
@@ -50,7 +92,6 @@ while True:
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
-
 
 if __name__ == "__main__":
     main()
