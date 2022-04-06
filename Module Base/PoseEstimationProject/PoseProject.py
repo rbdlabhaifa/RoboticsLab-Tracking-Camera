@@ -34,11 +34,10 @@ def hotZones(frame, height, width, maxLength, midPoint):
 
     if midPoint[0]<leftBorder:
         move=moveToLeftBorder-midPoint[0]
+        cv2.arrowedLine(img=frame, pt1=(int(midPoint[0]),int(midPoint[1])), pt2=(int(moveToLeftBorder), int(midPoint[1])), color=(0, 255, 0), thickness=5)
     elif midPoint[0]>rightBorder:
-        move=midPoint[0]-moveToRightBorder
-
-    print(moveToLeftBorder, midPoint[0])
-
+        move=moveToRightBorder-midPoint[0]
+        cv2.arrowedLine(img=frame, pt1=(int(midPoint[0]),int(midPoint[1])), pt2=(int(moveToRightBorder), int(midPoint[1])), color=(0, 255, 0), thickness=5)
 
     #draw zones
     cv2.line(img=frame, pt1=(int(leftBorder), 0), pt2=(int(leftBorder), height), color=(0, 0, 255), thickness=5, lineType=8, shift=0)
@@ -48,6 +47,7 @@ def hotZones(frame, height, width, maxLength, midPoint):
     cv2.line(img=frame, pt1=(int(moveToLeftBorder), 0), pt2=(int(moveToLeftBorder), height), color=(0, 255, 255), thickness=5, lineType=8, shift=0)
     cv2.line(img=frame, pt1=(int(moveToRightBorder), 0), pt2=(int(moveToRightBorder), height), color=(0, 255, 255), thickness=5, lineType=8, shift=0)
 
+    print(move)
     return move
 
 pTime = 0
@@ -56,6 +56,13 @@ img = detector = pem.poseDetector()
 
 while True:
     success, img = cap.read()
+    # img = cv2.imread('C:\Code\GitHub\RoboticsLab\PedestriansPics\\alone.jpg')
+    # # img=cv2.flip(img,1)
+    # cv2.namedWindow('ObjectDetection_Checker', cv2.WINDOW_NORMAL)
+    # cv2.resizeWindow('ObjectDetection_Checker', 1280, 720)
+
+    # cv2.imshow('Image', img)
+
     height, width , c = img.shape
 
     detector.findPose(img, True)
@@ -77,11 +84,11 @@ while True:
         w,h = (xMax-xMin), (yMax-yMin)
         maxLength=max(h,w)
         midPoint=(xMin+w/2, yMin+h/2) # mid point of the bbox of the character
-        hotZones(img, height, width, maxLength, midPoint)
+        moveTo=hotZones(img, height, width, maxLength, midPoint)
         # x,y = x4,y4
         # w,h = abs(x1-x4),abs(y1-y4)
         # cv2.rectangle(img, (x+30, y+30), (x1-30,y1-30), (139, 34, 104), 2)
-        cv2.rectangle(img, (xMax, yMax), (xMin,yMin), (139, 34, 104), 2) 
+        cv2.rectangle(img, (xMax, yMax), (xMin,yMin), (139, 34, 104), 2)
         # cv2.circle(img, (lmList[14][1], lmList[14][2]), 5, (255, 0, 150), cv2.FILLED)
 
     cTime = time.time()
