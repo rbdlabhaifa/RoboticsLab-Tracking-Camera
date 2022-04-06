@@ -2,12 +2,12 @@ import cv2
 import time
 import imutils
 from PedestrianDetector import Detector
-import PoseEstimationModule as pem
+# import PoseEstimationModule as pem
 
 
 # cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/dancing.mp4') # dancing video
-# cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/lecture.mp4') # lecture video
-cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
+cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/lecture.mp4') # lecture video
+# cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/alone.jpg') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/hide1.jpg') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/multiple.jpg') # walking video
