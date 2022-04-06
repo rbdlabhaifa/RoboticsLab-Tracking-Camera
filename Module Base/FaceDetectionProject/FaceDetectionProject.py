@@ -9,8 +9,8 @@ faceDetection = mpFaceDetection.FaceDetection()
 
 #cap = cv2.VideoCapture('PexelVideo/face.mp4')  # face video
 # cap = cv2.VideoCapture('PexelVideo/hiddenface.mp4')  # hiddenface video
-cap = cv2.VideoCapture('PexelVideo/multiface.mp4') # multi-face video
-# cap = cv2.VideoCapture(0) # Camputer Camera
+# cap = cv2.VideoCapture('PexelVideo/multiface.mp4') # multi-face video
+cap = cv2.VideoCapture(0) # Camputer Camera
 pTime = 0
 
 while True:

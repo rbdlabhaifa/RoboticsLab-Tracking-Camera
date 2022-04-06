@@ -8,9 +8,11 @@ import math
 # commented error ValueError(f'Landmark index is out of range. Invalid connection 'f'from landmark #{start_idx} to landmark #{end_idx}.')
 # at line 161
 
+
 class poseDetector():
 
-    def __init__(self, mode=False, complex=1, smooth=True, detectionCon=0.5, trackCon=0.5):
+    def __init__(self, mode=False, complex=1, smooth=True, detectionCon=0.5, trackCon=0.5, min_detection_confidence=0.5,
+    min_tracking_confidence=0.5):
 
         self.mode = mode
         self.complex = complex
@@ -20,7 +22,9 @@ class poseDetector():
 
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
-        self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon)
+        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon)
+        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon,min_detection_confidence,min_tracking_confidence)
+        self.pose = self.mpPose.Pose()
 
     def findPose(self, img, draw=True):
 
@@ -28,7 +32,7 @@ class poseDetector():
         self.results = self.pose.process(imgRGB)
 
         if self.results.pose_landmarks:
-            if draw:
+            if draw:# false insteed of ddaw for new way
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
         return img
 
@@ -45,28 +49,29 @@ class poseDetector():
 
         return self.lmList
 
-    def findAngle(self, img, p1, p2, p3, draw=True):
 
-        # landmarks
-        x1, y1 = self.lmList[p1][1:]
-        x2, y2 = self.lmList[p2][1:]
-        x3, y3 = self.lmList[p3][1:]
+    # def findAngle(self, img, p1, p2, p3, draw=True):
 
-        # Angle
-        angle = abs(math.degrees(math.atan2(y3 - y2, x3 - x2) - math.atan2(y1 - y2, x1 - x2)))
+    #     # landmarks
+    #     x1, y1 = self.lmList[p1][1:]
+    #     x2, y2 = self.lmList[p2][1:]
+    #     x3, y3 = self.lmList[p3][1:]
 
-        if draw:
-            cv2.line(img, (x1, y1), (x2, y2), (255, 255, 255), 3)
-            cv2.line(img, (x3, y3), (x2, y2), (255, 255, 255), 3)
-            cv2.circle(img, (x1, y1), 10, (255, 0, 150), cv2.FILLED)
-            cv2.circle(img, (x1, y1), 15, (255, 0, 150), 2)
-            cv2.circle(img, (x2, y2), 10, (255, 0, 150), cv2.FILLED)
-            cv2.circle(img, (x2, y2), 15, (255, 0, 150), 2)
-            cv2.circle(img, (x3, y3), 10, (255, 0, 150), cv2.FILLED)
-            cv2.circle(img, (x3, y3), 15, (255, 0, 150), 2)
-            # cv2.putText(img, str(int(angle)), (x2 - 30, y2 + 50), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 2)
+    #     # Angle
+    #     angle = abs(math.degrees(math.atan2(y3 - y2, x3 - x2) - math.atan2(y1 - y2, x1 - x2)))
 
-        return angle
+    #     if draw:
+    #         cv2.line(img, (x1, y1), (x2, y2), (255, 255, 255), 3)
+    #         cv2.line(img, (x3, y3), (x2, y2), (255, 255, 255), 3)
+    #         cv2.circle(img, (x1, y1), 10, (255, 0, 150), cv2.FILLED)
+    #         cv2.circle(img, (x1, y1), 15, (255, 0, 150), 2)
+    #         cv2.circle(img, (x2, y2), 10, (255, 0, 150), cv2.FILLED)
+    #         cv2.circle(img, (x2, y2), 15, (255, 0, 150), 2)
+    #         cv2.circle(img, (x3, y3), 10, (255, 0, 150), cv2.FILLED)
+    #         cv2.circle(img, (x3, y3), 15, (255, 0, 150), 2)
+    #         # cv2.putText(img, str(int(angle)), (x2 - 30, y2 + 50), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 2)
+
+    #     return angle
 
 
 def main():
