@@ -19,3 +19,5 @@ pip install imutils
 ### mediapipe detector - very good and accurate but not rectangle...
 ![image](https://user-images.githubusercontent.com/85457983/158022794-9a3b0be3-1f32-44e2-b6a0-b3084197dd4d.png)
 
+### Hotzpnes to determent the amount and direction of the camera to move to 
+![image](https://user-images.githubusercontent.com/54915373/161993748-a10f035b-9f23-4ae9-b575-91572c3876b8.png)
