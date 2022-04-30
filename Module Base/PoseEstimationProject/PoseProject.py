@@ -4,14 +4,14 @@ import PoseEstimationModule as pem
 
 
 # cap = cv2.VideoCapture('Data_Set/PexelsVideos/dancing.mp4')  # dancing video
-# cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\Data_Set\PexelsVideos\walking.mp4') # walking video
+# cap = cv2.VideoCapture(r'Data_Set\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
 # cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/dancing_couple.mp4') # lecture video
-# cap = cv2.VideoCapture(r'../PedestriansPics/alone.jpg') # walking video
-# cap = cv2.VideoCapture(r'../PedestriansPics/hide1.jpg') # walking video
-# cap = cv2.VideoCapture(r'../PedestriansPics/multiple.jpg') # walking video
-# cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/lecture.mp4') # lecture video
-cap = cv2.VideoCapture('Data_Set/@Y_dataset/@Y_HZ_levels.mpg') # walking video
+# cap = cv2.VideoCapture(r'Data_Set/PedestriansPics/alone.jpg') # walking video
+# cap = cv2.VideoCapture(r'Data_Set/PedestriansPics/hide2.jpg') # walking video
+# cap = cv2.VideoCapture(r'Data_Set/PedestriansPics/multiple.jpg') # walking video
+cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/lecture.mp4') # lecture video
+# cap = cv2.VideoCapture('Data_Set/@Y_dataset/@Y_HZ_levels.mpg') # walking video
 
 # rescaling resolution for better preformance
 cap.set(3, 640)
@@ -68,7 +68,7 @@ img = detector = pem.poseDetector()
 while True:
     success, img = cap.read()
 
-    img = rescale_frame(img, percent=60) # Uncomment in order to take place, the percentage is for relative scaling
+    # img = rescale_frame(img, percent=60) # Uncomment in order to take place, the percentage is for relative scaling
     # img = cv2.imread('C:\Code\GitHub\RoboticsLab\PedestriansPics\\alone.jpg')
     # # img=cv2.flip(img,1)
     # cv2.namedWindow('ObjectDetection_Checker', cv2.WINDOW_NORMAL)
@@ -112,6 +112,6 @@ while True:
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
-
+    # cv2.waitKey(6000)
 if __name__ == "__main__":
     main()
