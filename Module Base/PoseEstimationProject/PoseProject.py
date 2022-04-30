@@ -3,15 +3,26 @@ import time
 import PoseEstimationModule as pem
 
 
-# cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
-# cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
+# cap = cv2.VideoCapture('Data_Set/PexelsVideos/dancing.mp4')  # dancing video
+# cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\Data_Set\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
-# cap = cv2.VideoCapture(r'PexelsVideos/dancing_couple.mp4') # lecture video
+# cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/dancing_couple.mp4') # lecture video
 # cap = cv2.VideoCapture(r'../PedestriansPics/alone.jpg') # walking video
 # cap = cv2.VideoCapture(r'../PedestriansPics/hide1.jpg') # walking video
 # cap = cv2.VideoCapture(r'../PedestriansPics/multiple.jpg') # walking video
-cap = cv2.VideoCapture(r'PexelsVideos/lecture.mp4') # lecture video
+# cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/lecture.mp4') # lecture video
+cap = cv2.VideoCapture('Data_Set/@Y_dataset/@Y_HZ_levels.mpg') # walking video
 
+# rescaling resolution for better preformance
+cap.set(3, 640)
+cap.set(4, 480)
+
+# rescaling frame function for oversized frames - if needed
+def rescale_frame(frame, percent=75):
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
 
 def hotZones(frame, height, width, maxLength, midPoint):
     ''':param frame- the frame img , height - the height of the frame, width - the width of the frame,
@@ -56,6 +67,8 @@ img = detector = pem.poseDetector()
 
 while True:
     success, img = cap.read()
+
+    img = rescale_frame(img, percent=60) # Uncomment in order to take place, the percentage is for relative scaling
     # img = cv2.imread('C:\Code\GitHub\RoboticsLab\PedestriansPics\\alone.jpg')
     # # img=cv2.flip(img,1)
     # cv2.namedWindow('ObjectDetection_Checker', cv2.WINDOW_NORMAL)
