@@ -17,6 +17,7 @@ cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/lecture.mp4') # lecture video
 cap.set(3, 640)
 cap.set(4, 480)
 
+
 # rescaling frame function for oversized frames - if needed
 def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent/ 100)
