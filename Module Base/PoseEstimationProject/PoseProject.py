@@ -16,11 +16,6 @@ import numpy as np
 cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/stand_apart.mp4') # two people standing apart video
 # cap = cv2.VideoCapture('Data_Set/@Y_dataset/@Y_braking_shape.mpg') # walking video
 
-
-# creating zero frame
-shape = ((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)),int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),3))
-print(shape)
-frame1 = np.zeros(shape)
 # rescaling resolution for better preformance
 cap.set(3, 640)
 cap.set(4, 480)
@@ -79,14 +74,6 @@ while True:
     scalep = 80
     crop_flag = False
     # img = rescale_frame(img, percent=scalep) # Uncomment in order to take place, the percentage is for relative scaling
-    # frame = rescale_frame(frame, percent=scalep) # Uncomment in order to take place, the percentage is for relative scaling
-
-    # img = cv2.imread('C:\Code\GitHub\RoboticsLab\PedestriansPics\\alone.jpg')
-    # # img=cv2.flip(img,1)
-    # cv2.namedWindow('ObjectDetection_Checker', cv2.WINDOW_NORMAL)
-    # cv2.resizeWindow('ObjectDetection_Checker', 1280, 720)
-
-    # cv2.imshow('Image', img)
 
     height, width , c = img.shape
     print(adj)
@@ -123,35 +110,19 @@ while True:
         yMaxf = max(rSholder[1], lSholder[1], rHip[1], lHip[1])+int(0.8*h)
         yMinf = min(rSholder[1], lSholder[1], rHip[1], lHip[1])-int(0.8*h)
 
-        # inserting crop image into zero frame
-        # frame1 = np.zeros(shape)
-        # crop = img[xMin:xMax, yMin:yMax,:]
-        # crop = np.array(crop)
-        # offset = np.array((xMin, yMin,0))
-        # frame1[offset[0]:offset[0] + crop.shape[0], offset[1]:offset[1] + crop.shape[1],offset[2]:offset[2] + crop.shape[2]] = crop
-
-
 
     cTime = time.time()
     fps = 1/(cTime-pTime)
     pTime = cTime
 
     cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
-    if adj < 50 or len(lmList)==0:
-        cv2.imshow("Image", img)
-    else:
-        if(adj==100):
-            cv2.destroyAllWindows()
-        # frame1 = np.zeros(shape)
-        frame2= img
-        # frame1[yMinf:yMaxf,xMinf:xMaxf,:] = img[yMinf:yMaxf,xMinf:xMaxf,:]
+    if adj > 50 and len(lmList)!=0:
         if crop_flag==False:
-            frame2[:yMinf,:,:]=0
-            frame2[:, :xMinf, :] = 0
-            frame2[yMaxf:,:,:]=0
-            frame2[:, xMaxf:, :] = 0
-        cv2.imshow("Frame1", frame2)
-    # cv2.imshow("test", background)
+            img[:yMinf,:,:]=0
+            img[:, :xMinf, :] = 0
+            img[yMaxf:,:,:]=0
+            img[:, xMaxf:, :] = 0
+    cv2.imshow("Image", img)
     cv2.waitKey(1)
     # cv2.waitKey(6000)
 if __name__ == "__main__":
