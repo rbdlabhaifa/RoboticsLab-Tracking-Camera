@@ -8,7 +8,8 @@ mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh(max_num_faces=2)
 drawSpec = mpDraw.DrawingSpec(thickness=2, circle_radius=1)
 # cap = cv2.VideoCapture('PexelVideo/talk.mp4')  # talk video
-cap = cv2.VideoCapture('PexelVideo/talking.mp4') # talking video
+# cap = cv2.VideoCapture('PexelVideo/talking.mp4') # talking video
+cap = cv2.VideoCapture('PexelVideo/mul_faces.mp4') # talking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
 pTime = 0
 
@@ -24,7 +25,7 @@ while True:
             for id, lm in enumerate(faceLMS.landmark):
                 ih, iw, ic = img.shape
                 x, y = int(lm.x * iw), int(lm.y * ih)
-                # print(id, x, y)
+                print(id, x, y)
 
     cTime = time.time()
     fps = 1/(cTime-pTime)

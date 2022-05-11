@@ -32,7 +32,7 @@ class poseDetector():
         self.results = self.pose.process(imgRGB)
 
         if self.results.pose_landmarks:
-            if draw:# false insteed of ddaw for new way
+            if draw:# false insteed of draw for new way
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
         return img
 
@@ -76,8 +76,8 @@ class poseDetector():
 
 def main():
     # cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
-    cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
-    # cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
+    # cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
+    cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
     # cap = cv2.VideoCapture(0) # Camputer Camera
     pTime = 0
     img = detector = poseDetector()
@@ -86,6 +86,7 @@ def main():
 
         success, img = cap.read()
         detector.findPose(img)
+        # detector.findPosition(img)
         lmList = detector.findPosition(img, draw=False)
         if len(lmList) != 0:
             print(lmList[14])

@@ -1,19 +1,26 @@
 import cv2
 import time
 import imutils
+import numpy as np
 from PedestrianDetector import Detector
 # import PoseEstimationModule as pem
 
 
-# cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/dancing.mp4') # dancing video
-cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/lecture.mp4') # lecture video
+cap = cv2.VideoCapture('Module Base\PoseEstimationProject\Data_Set\PexelsVideos\dancing_couple.mp4') # dancing couple video
+# cap = cv2.VideoCapture('Module Base/PoseEstimationProject/PexelsVideos/lecture.mp4') # lecture video
 # cap = cv2.VideoCapture(r'D:\GitHub\RoboticsLabProject\RoboticsLab\Module Base\PoseEstimationProject\PexelsVideos\walking.mp4') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/alone.jpg') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/hide1.jpg') # walking video
 # cap = cv2.VideoCapture('PedestriansPics/multiple.jpg') # walking video
 # cap = cv2.VideoCapture(0) # Camputer Camera
+# Import TF and TF Hub libraries.
+cap.set(3, 640)
+cap.set(4, 480)
 
-pTime = 0
+# Load the input image.
+
+
+# pTime = 0
 ###############Pedestrian Detector implement #################
 while True:
     success, img = cap.read()
@@ -32,26 +39,3 @@ while True:
     cv2.waitKey(1)
 ########################################################################
 
-#############################Pose Detection implement###########################################
-# img = detector = pem.poseDetector()
-
-# while True:
-#     success, img = cap.read()
-#     detector.findPose(img)
-#     lmList = detector.findPosition(img, draw = False)
-#     if len(lmList)!=0:
-#         print(lmList[14])
-#         cv2.circle(img, (lmList[14][1], lmList[14][2]), 5, (255, 0, 150), cv2.FILLED)
-
-#     cTime = time.time()
-#     fps = 1/(cTime-pTime)
-#     pTime = cTime
-
-#     cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
-
-#     cv2.imshow("Image", img)
-#     cv2.waitKey(1)
-
-
-
-    ################################################################################
