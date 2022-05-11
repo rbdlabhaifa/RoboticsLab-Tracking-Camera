@@ -114,14 +114,14 @@ while True:
         # cv2.rectangle(img, (x+30, y+30), (x1-30,y1-30), (139, 34, 104), 2)
         cv2.rectangle(img, (xMax, yMax), (xMin,yMin), (139, 34, 104), 2)
 
-        rEye = lmList[5][1],lmList[5][2]
-        lEye = lmList[2][1],lmList[2][2]
-        rFoot = lmList[32][1],lmList[32][2]
-        lFoot = lmList[31][1],lmList[31][2]
-        xMaxf = max(rEye[0], lEye[0], rFoot[0], lFoot[0])+30
-        xMinf = min(rEye[0], lEye[0], rFoot[0], lFoot[0])-30
-        yMaxf = max(rEye[1], lEye[1], rFoot[1], lFoot[1])+30
-        yMinf = min(rEye[1], lEye[1], rFoot[1], lFoot[1])-30
+        rSholder = lmList[12][1],lmList[12][2]
+        lSholder = lmList[11][1],lmList[11][2]
+        rHip = lmList[24][1],lmList[24][2]
+        lHip = lmList[23][1],lmList[23][2]
+        xMaxf = max(rSholder[0], lSholder[0], rHip[0], lHip[0])+int(0.8*w)
+        xMinf = min(rSholder[0], lSholder[0], rHip[0], lHip[0])-int(0.8*w)
+        yMaxf = max(rSholder[1], lSholder[1], rHip[1], lHip[1])+int(0.8*h)
+        yMinf = min(rSholder[1], lSholder[1], rHip[1], lHip[1])-int(0.8*h)
 
         # inserting crop image into zero frame
         # frame1 = np.zeros(shape)
