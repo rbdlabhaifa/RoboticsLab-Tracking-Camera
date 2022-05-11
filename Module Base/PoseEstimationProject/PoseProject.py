@@ -77,6 +77,7 @@ while True:
     success, img = cap.read()
     adj=adj+1
     scalep = 80
+    crop_flag = False
     # img = rescale_frame(img, percent=scalep) # Uncomment in order to take place, the percentage is for relative scaling
     # frame = rescale_frame(frame, percent=scalep) # Uncomment in order to take place, the percentage is for relative scaling
 
@@ -89,7 +90,12 @@ while True:
 
     height, width , c = img.shape
     print(adj)
-
+    if adj > 101 and len(lmList)!=0:
+        crop_flag = True
+        img[:yMinf,:,:]=0
+        img[:, :xMinf, :] = 0
+        img[yMaxf:,:,:]=0
+        img[:, xMaxf:, :] = 0
     detector.findPose(img, True)
     lmList = detector.findPosition(img, draw = False)
     if len(lmList)!=0:
@@ -136,9 +142,15 @@ while True:
     else:
         if(adj==100):
             cv2.destroyAllWindows()
-        frame1 = np.zeros(shape)
-        frame1[yMinf:yMaxf,xMinf:xMaxf,:] = img[yMinf:yMaxf,xMinf:xMaxf,:]
-        cv2.imshow("Frame1", img)
+        # frame1 = np.zeros(shape)
+        frame2= img
+        # frame1[yMinf:yMaxf,xMinf:xMaxf,:] = img[yMinf:yMaxf,xMinf:xMaxf,:]
+        if crop_flag==False:
+            frame2[:yMinf,:,:]=0
+            frame2[:, :xMinf, :] = 0
+            frame2[yMaxf:,:,:]=0
+            frame2[:, xMaxf:, :] = 0
+        cv2.imshow("Frame1", frame2)
     # cv2.imshow("test", background)
     cv2.waitKey(1)
     # cv2.waitKey(6000)
