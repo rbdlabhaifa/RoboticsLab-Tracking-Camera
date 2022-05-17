@@ -73,8 +73,8 @@ def mainPoseDetection(cap, drawLineFlag):
         if not success or img is None:
             print("No Img")
             continue
-        # crop_img = np.array(img) ########## For fully deployment uncomment this row and comment the row below
-        crop_img = img
+        crop_img = np.array(img) ########## For fully deployment uncomment this row and comment the row below
+        # crop_img = img
         adj += 1
         scalep = 80
         crop_flag = False
@@ -82,12 +82,12 @@ def mainPoseDetection(cap, drawLineFlag):
 
         height, width, c = img.shape
         # print(adj)
-        # if adj > 51 and len(lmList) != 0:
-        #     crop_flag = True
-        #     crop_img[:yMinf, :, :] = 0
-        #     crop_img[:, :xMinf, :] = 0
-        #     crop_img[yMaxf:, :, :] = 0
-        #     crop_img[:, xMaxf:, :] = 0
+        if adj > 51 and len(lmList) != 0:
+            crop_flag = True
+            crop_img[:yMinf, :, :] = 0
+            crop_img[:, :xMinf, :] = 0
+            crop_img[yMaxf:, :, :] = 0
+            crop_img[:, xMaxf:, :] = 0
 
         print(drawLineFlag)
         detector.findPose(crop_img, drawLineFlag)
@@ -105,10 +105,13 @@ def mainPoseDetection(cap, drawLineFlag):
             maxLength = max(h, w)
             midPoint = (xMin + w / 2, yMin + h / 2)  # mid point of the bbox of the character
             moveTo = hotZones(img, height, width, maxLength, midPoint, drawLineFlag)
-            # cv2.rectangle(img, (x+30, y+30), (x1-30,y1-30), (139, 34, 104), 2)
             if (drawLineFlag == True):
                 cv2.rectangle(img, (xMax+round(maxLength*0.25), yMax+round(maxLength*0.25)), (xMin-round(maxLength*0.25), yMin-round(maxLength*0.25)), (139, 34, 104), 2)
 
+        xMaxf = xMax+ int(0.8 * w)
+        xMinf = xMin - int(0.8 * w)
+        yMaxf = yMax + int(0.8 * h)
+        yMinf = yMin - int(0.8 * h)
         if (drawLineFlag == True): #show fps
             cTime = time.time()
             fps = 1 / (cTime - pTime)
@@ -117,13 +120,12 @@ def mainPoseDetection(cap, drawLineFlag):
 
         if len(lmList) == 0:
             adj=30
-
-        if adj > 51 and len(lmList) != 0:
+        if adj > 50 and len(lmList) != 0:
             if not crop_flag:
-                img[:yMin - int(0.8 * h), :, :] = 0
-                img[:, :xMin - int(0.8 * w), :] = 0
-                img[yMax + int(0.8 * h):, :, :] = 0
-                img[:, xMax + int(0.8 * w):, :] = 0
+                img[:yMinf, :, :] = 0
+                img[:, :xMinf, :] = 0
+                img[yMaxf:, :, :] = 0
+                img[:, xMaxf:, :] = 0
         cv2.imshow("Image", img)
         cv2.waitKey(1)
         # cv2.waitKey(6000)
@@ -156,11 +158,6 @@ if __name__ == "__main__":
     cap.set(3, 640)
     cap.set(4, 480)
 
-    # shape = ((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 3))
-    # # print(shape)
-
-    # print(eval(drawLines))
-
     if drawLines == "True":
         drawLineFlag=True
     elif drawLines == "False":
@@ -168,6 +165,5 @@ if __name__ == "__main__":
     else:
         print("invalid flag input")
 
-    # mainPoseDetection(input=0, drowlines=False)
     mainPoseDetection(cap, drawLineFlag)
 
