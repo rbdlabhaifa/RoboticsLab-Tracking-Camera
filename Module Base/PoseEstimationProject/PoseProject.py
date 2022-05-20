@@ -4,6 +4,7 @@ import time
 import PoseEstimationModule as pem
 import numpy as np
 from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler as Scheduler
 
 # rescaling frame function for oversized frames - if needed
 def rescale_frame(frame, percent=75):
@@ -11,6 +12,8 @@ def rescale_frame(frame, percent=75):
     height = int(frame.shape[0] * percent / 100)
     dim = (width, height)
     return cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
+
 
 
 def hotZones(frame, height, width, maxLength, midPoint, drawLineFlag):
@@ -68,6 +71,7 @@ def mainPoseDetection(cap, drawLineFlag):
     pTime = 0
     adj = 0
     detector = pem.poseDetector()
+    recordFlag=False
 
     # frame_width = int(cap.get(3))
     # frame_height = int(cap.get(4))
@@ -76,10 +80,21 @@ def mainPoseDetection(cap, drawLineFlag):
     # result = cv2.VideoWriter('filename.avi', cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
 
     while True:
+        # if recordFlag and startRecord:
+        if cv2.waitKey(1) & 0xFF == ord('r') and recordFlag==False:
+            frame_width = int(cap.get(3))
+            frame_height = int(cap.get(4))
+            size = (frame_width, frame_height)
+            name = datetime.now().strftime("%d.%m.%Y %H-%M-%S")
+            result = cv2.VideoWriter(name + ".avi", cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
+            recordFlag=True
+            print("start recording")
+
         success, img = cap.read()
         if not success or img is None:
             print("No Img")
             break
+
         crop_img = np.array(img) ########## For fully deployment uncomment this row and comment the row below
         # crop_img = img
         adj += 1
@@ -132,24 +147,42 @@ def mainPoseDetection(cap, drawLineFlag):
                 img[:, :xMinf, :] = 0
                 img[yMaxf:, :, :] = 0
                 img[:, xMaxf:, :] = 0
-
-        result.write(img)
+        if recordFlag:
+            result.write(img)
         cv2.imshow("Image", img)
         # cv2.waitKey(1)
         # cv2.waitKey(6000)
 
-        if cv2.waitKey(1) & 0xFF == ord('s'):
+        if cv2.waitKey(1) & 0xFF == ord('x'):
             break
 
-    # cap.release()
-    # result.release()
-    # cv2.destroyAllWindows()
+        if cv2.waitKey(1) & 0xFF == ord('s'):
+            result.release()
+            recordFlag=False
+            print("stop recording")
+
+
+    cap.release()
+    if recordFlag:
+        result.release()
+        recordFlag=False
+        print("stop recording")
+    cv2.destroyAllWindows()
+
 
 
 if __name__ == "__main__":
+    # global recordFlag
+    recordFlag=False
+
+
+    def flagSweacher(recordFlag):
+        recordFlag=True
+
+
     input = argv[1] # path input for a video by defalt set to live captun
     drawLines = argv[2]  #draw test lines
-
+    exec_date = argv[3]
     # cap = cv2.VideoCapture('Data_Set/PexelsVideos/dancing.mp4')  # dancing video
     # cap = cv2.VideoCapture(r'Data_Set\PexelsVideos\walking.mp4') # walking video
     # cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/dancing_couple.mp4') # lecture video
@@ -178,15 +211,14 @@ if __name__ == "__main__":
     else:
         print("invalid flag input")
 
-    frame_width = int(cap.get(3))
-    frame_height = int(cap.get(4))
-    size = (frame_width, frame_height)
-    name=datetime.now().strftime("%d.%m.%Y %H-%M-%S")
-    result = cv2.VideoWriter(name+".avi", cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
+    activeTime=datetime.fromisoformat(exec_date)
+    print(activeTime)
+    sched = Scheduler()
+    sched.start()
+    # job = sched.add_date_job(flagSweacher,activeTime , [recordFlag])
+    job = sched.add_job(flagSweacher, 'date', run_date=activeTime, args=[recordFlag])
+
 
     mainPoseDetection(cap, drawLineFlag)
 
-    cap.release()
-    result.release()
-    cv2.destroyAllWindows()
     print("all done!")
