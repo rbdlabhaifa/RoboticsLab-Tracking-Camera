@@ -6,6 +6,7 @@ import numpy as np
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler as Scheduler
 
+
 # rescaling frame function for oversized frames - if needed
 def rescale_frame(frame, percent=75):
     width = int(frame.shape[1] * percent / 100)
@@ -149,6 +150,7 @@ def mainPoseDetection(cap, drawLineFlag):
                 img[:, xMaxf:, :] = 0
         if recordFlag:
             result.write(img)
+            img = cv2.circle(img, (25, 25), 10, (0,0,255), -1)
         cv2.imshow("Image", img)
         # cv2.waitKey(1)
         # cv2.waitKey(6000)
