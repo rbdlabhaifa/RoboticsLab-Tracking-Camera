@@ -4,7 +4,7 @@ import time
 import PoseEstimationModule as pem
 import numpy as np
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler as Scheduler
+
 
 
 # rescaling frame function for oversized frames - if needed
@@ -62,34 +62,24 @@ def hotZones(frame, height, width, maxLength, midPoint, drawLineFlag):
 
     return move
 
-# def drawShapes(drawLineFlag):
-
-
 def mainPoseDetection(cap, drawLineFlag):
-    shape = ((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 3))
-    # print(shape)
+    # shape = ((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 3))
+    # # print(shape)
 
     pTime = 0
     adj = 0
     detector = pem.poseDetector()
     recordFlag=False
 
-    # frame_width = int(cap.get(3))
-    # frame_height = int(cap.get(4))
-    #
-    # size = (frame_width, frame_height)
-    # result = cv2.VideoWriter('filename.avi', cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
-
-    while True:
-        # if recordFlag and startRecord:
-        if cv2.waitKey(1) & 0xFF == ord('r') and recordFlag==False:
+    while cv2.waitKey(1) != 27: #esc
+        keyPrass = cv2.waitKey(1) & 0xFF
+        if  keyPrass == ord('r') or keyPrass == ord('R') and recordFlag==False:
             frame_width = int(cap.get(3))
             frame_height = int(cap.get(4))
             size = (frame_width, frame_height)
             name = datetime.now().strftime("%d.%m.%Y %H-%M-%S")
             result = cv2.VideoWriter(name + ".avi", cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
             recordFlag=True
-            print("start recording")
 
         success, img = cap.read()
         if not success or img is None:
@@ -152,16 +142,10 @@ def mainPoseDetection(cap, drawLineFlag):
             result.write(img)
             img = cv2.circle(img, (25, 25), 10, (0,0,255), -1)
         cv2.imshow("Image", img)
-        # cv2.waitKey(1)
-        # cv2.waitKey(6000)
 
-        if cv2.waitKey(1) & 0xFF == ord('x'):
-            break
-
-        if cv2.waitKey(1) & 0xFF == ord('s'):
+        if   keyPrass == ord('s') or keyPrass == ord('S') and recordFlag==True  :
             result.release()
             recordFlag=False
-            print("stop recording")
 
 
     cap.release()
@@ -174,17 +158,8 @@ def mainPoseDetection(cap, drawLineFlag):
 
 
 if __name__ == "__main__":
-    # global recordFlag
-    recordFlag=False
-
-
-    def flagSweacher(recordFlag):
-        recordFlag=True
-
-
     input = argv[1] # path input for a video by defalt set to live captun
     drawLines = argv[2]  #draw test lines
-    exec_date = argv[3]
     # cap = cv2.VideoCapture('Data_Set/PexelsVideos/dancing.mp4')  # dancing video
     # cap = cv2.VideoCapture(r'Data_Set\PexelsVideos\walking.mp4') # walking video
     # cap = cv2.VideoCapture(r'Data_Set/PexelsVideos/dancing_couple.mp4') # lecture video
@@ -213,12 +188,6 @@ if __name__ == "__main__":
     else:
         print("invalid flag input")
 
-    activeTime=datetime.fromisoformat(exec_date)
-    print(activeTime)
-    sched = Scheduler()
-    sched.start()
-    # job = sched.add_date_job(flagSweacher,activeTime , [recordFlag])
-    job = sched.add_job(flagSweacher, 'date', run_date=activeTime, args=[recordFlag])
 
 
     mainPoseDetection(cap, drawLineFlag)
