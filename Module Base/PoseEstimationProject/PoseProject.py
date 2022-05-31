@@ -2,6 +2,7 @@ from sys import argv
 import cv2
 import time
 import PoseEstimationModule as pem
+import Tello
 import numpy as np
 from datetime import datetime
 
@@ -62,6 +63,14 @@ def hotZones(frame, height, width, maxLength, midPoint, drawLineFlag):
 
     return move
 
+def movmentControler (movmentFlag):
+    if movmentFlag ==0:
+        return
+    elif movmentFlag<0:
+        Tello.move_left()
+    elif movmentFlag>0:
+        Tello.move_right()
+
 def mainPoseDetection(cap, drawLineFlag):
     # shape = ((int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), 3))
     # # print(shape)
@@ -117,6 +126,9 @@ def mainPoseDetection(cap, drawLineFlag):
             maxLength = max(h, w)
             midPoint = (xMin + w / 2, yMin + h / 2)  # mid point of the bbox of the character
             moveTo = hotZones(img, height, width, maxLength, midPoint, drawLineFlag)
+
+            movmentControler(moveTo)
+
             if (drawLineFlag == True):
                 cv2.rectangle(img, (xMax+round(maxLength*0.25), yMax+round(maxLength*0.25)), (xMin-round(maxLength*0.25), yMin-round(maxLength*0.25)), (139, 34, 104), 2)
 
