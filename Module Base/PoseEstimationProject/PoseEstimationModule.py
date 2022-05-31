@@ -41,7 +41,6 @@ class poseDetector():
         if self.results.pose_landmarks:
             for id, lm in enumerate(self.results.pose_landmarks.landmark):
                 h, w, c = img.shape
-                # print(id, lm)
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 self.lmList.append([id, cx, cy])
                 if draw:
@@ -50,59 +49,38 @@ class poseDetector():
         return self.lmList
 
 
-    # def findAngle(self, img, p1, p2, p3, draw=True):
-
-    #     # landmarks
-    #     x1, y1 = self.lmList[p1][1:]
-    #     x2, y2 = self.lmList[p2][1:]
-    #     x3, y3 = self.lmList[p3][1:]
-
-    #     # Angle
-    #     angle = abs(math.degrees(math.atan2(y3 - y2, x3 - x2) - math.atan2(y1 - y2, x1 - x2)))
-
-    #     if draw:
-    #         cv2.line(img, (x1, y1), (x2, y2), (255, 255, 255), 3)
-    #         cv2.line(img, (x3, y3), (x2, y2), (255, 255, 255), 3)
-    #         cv2.circle(img, (x1, y1), 10, (255, 0, 150), cv2.FILLED)
-    #         cv2.circle(img, (x1, y1), 15, (255, 0, 150), 2)
-    #         cv2.circle(img, (x2, y2), 10, (255, 0, 150), cv2.FILLED)
-    #         cv2.circle(img, (x2, y2), 15, (255, 0, 150), 2)
-    #         cv2.circle(img, (x3, y3), 10, (255, 0, 150), cv2.FILLED)
-    #         cv2.circle(img, (x3, y3), 15, (255, 0, 150), 2)
-    #         # cv2.putText(img, str(int(angle)), (x2 - 30, y2 + 50), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 2)
-
-    #     return angle
 
 
-def main():
-    # cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
-    # cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
-    cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
-    # cap = cv2.VideoCapture(0) # Camputer Camera
-    pTime = 0
-    img = detector = poseDetector()
 
-    while True:
-
-        success, img = cap.read()
-        detector.findPose(img)
-        # detector.findPosition(img)
-        lmList = detector.findPosition(img, draw=False)
-        if len(lmList) != 0:
-            print(lmList[14])
-            cv2.circle(img, (lmList[14][1], lmList[14][2]), 3, (0, 0, 255), cv2.FILLED)
-
-
-        cTime = time.time()
-        fps = 1 / (cTime - pTime)
-        pTime = cTime
-
-        cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
-
-
-        cv2.imshow("Image", img)
-        cv2.waitKey(1)
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
+#     cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
+#     cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
+#     cap = cv2.VideoCapture(0) # Camputer Camera
+#     pTime = 0
+#     img = detector = poseDetector()
+#
+#     while True:
+#
+#         success, img = cap.read()
+#         detector.findPose(img)
+#         # detector.findPosition(img)
+#         lmList = detector.findPosition(img, draw=False)
+#         if len(lmList) != 0:
+#             print(lmList[14])
+#             cv2.circle(img, (lmList[14][1], lmList[14][2]), 3, (0, 0, 255), cv2.FILLED)
+#
+#
+#         cTime = time.time()
+#         fps = 1 / (cTime - pTime)
+#         pTime = cTime
+#
+#         cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
+#
+#
+#         cv2.imshow("Image", img)
+#         cv2.waitKey(1)
+#
+#
+# if __name__ == "__main__":
+#     main()
