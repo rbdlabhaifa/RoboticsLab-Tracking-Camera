@@ -2,7 +2,7 @@ from djitellopy import Tello
 
 tello = Tello()
 tello.connect()
-# tello.takeoff()
+tello.takeoff()
 #
 # # tello.move_left(100)
 # tello.rotate_counter_clockwise(90)
@@ -16,9 +16,8 @@ def move_left():
 def move_right():
     tello.rotate_clockwise(1)
 
-def initializeTello():
-    tello = Tello()
-    tello.connect()
+def landTello():
+    tello.land()
 
 
 if __name__ == "__main__":

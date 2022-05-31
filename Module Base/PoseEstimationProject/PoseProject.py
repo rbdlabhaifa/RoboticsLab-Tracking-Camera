@@ -203,5 +203,7 @@ if __name__ == "__main__":
 
 
     mainPoseDetection(cap, drawLineFlag)
+    Tello.landTello()
+
 
     print("all done!")
