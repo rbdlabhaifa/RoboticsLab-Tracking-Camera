@@ -98,13 +98,11 @@ def mainPoseDetection(cap, drawLineFlag):
         crop_img = np.array(img) ########## For fully deployment uncomment this row and comment the row below
         # crop_img = img
         adj += 1
-        scalep = 80
         crop_flag = False
-        # img = rescale_frame(img, percent=scalep) # Uncomment in order to take place, the percentage is for relative scaling
+        # img = rescale_frame(img, percent=80) # Uncomment in order to take place, the percentage is for relative scaling
 
         height, width, c = img.shape
-        # print(adj)
-        if adj > 51 and len(lmList) != 0:
+        if adj > 51:
             crop_flag = True
             crop_img[:yMinf, :, :] = 0
             crop_img[:, :xMinf, :] = 0
@@ -132,27 +130,36 @@ def mainPoseDetection(cap, drawLineFlag):
             if (drawLineFlag == True):
                 cv2.rectangle(img, (xMax+round(maxLength*0.25), yMax+round(maxLength*0.25)), (xMin-round(maxLength*0.25), yMin-round(maxLength*0.25)), (139, 34, 104), 2)
 
-        xMaxf = xMax + int(0.8 * w)
-        xMinf = xMin - int(0.8 * w)
-        yMaxf = yMax + int(0.8 * h)
-        yMinf = yMin - int(0.8 * h)
+
+        if len(lmList) == 0:
+            adj=30
+
+        if len(lmList) != 0:
+            xMaxf = xMax + int(1.4 * w)
+            xMinf = xMin - int(1.4 * w)
+            yMaxf = yMax + int(1.8 * h)
+            yMinf = yMin - int(1.2 * h)
+            print(xMaxf,xMinf,yMaxf,yMinf)
         if (drawLineFlag == True): #show fps
             cTime = time.time()
             fps = 1 / (cTime - pTime)
             pTime = cTime
             cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
 
-        if len(lmList) == 0:
-            adj=30
+
         if adj > 50 and len(lmList) != 0:
             if not crop_flag:
                 img[:yMinf, :, :] = 0
                 img[:, :xMinf, :] = 0
                 img[yMaxf:, :, :] = 0
                 img[:, xMaxf:, :] = 0
+
         if recordFlag:
             result.write(img)
             img = cv2.circle(img, (25, 25), 10, (0,0,255), -1)
+
+
+        # result.write(img)
         cv2.imshow("Image", img)
 
         if   keyPrass == ord('s') or keyPrass == ord('S') and recordFlag==True  :
@@ -201,9 +208,19 @@ if __name__ == "__main__":
         print("invalid flag input")
 
 
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+    size = (frame_width, frame_height)
+    # name=datetime.now().strftime("%d.%m.%Y %H-%M-%S")
+    # result = cv2.VideoWriter(name+".avi", cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
 
     mainPoseDetection(cap, drawLineFlag)
     Tello.landTello()
 
 
+
+
+    # cap.release()
+    # result.release()
+    cv2.destroyAllWindows()
     print("all done!")
