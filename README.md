@@ -4,13 +4,13 @@ W'll manage the project through this repo.
 
 IDE: PyCharm
 
+```
 pip install opencv-python
-
 pip install mediapipe 
+pip install numpy
+```
+[Tello](https://github.com/damiafuentes/DJITelloPy) installation
 
-pip install imutils
-
-** No need to update versions of packs
 
 The recent the update the upper it is.
 
