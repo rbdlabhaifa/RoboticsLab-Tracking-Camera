@@ -87,8 +87,12 @@ def mainPoseDetection(cap, drawLineFlag, droneMode):
     while cv2.waitKey(1) != 27:  # esc
         keyPrass = cv2.waitKey(1) & 0xFF
         if keyPrass == ord('r') or keyPrass == ord('R') and recordFlag == False:
-            frame_width = 960
-            frame_height =720
+            if droneMode == True:
+                frame_width = 960
+                frame_height =720
+            else:
+                frame_width = int(cap.get(3))
+                frame_height = int(cap.get(4))
             size = (frame_width, frame_height)
             name = datetime.now().strftime("%d.%m.%Y %H-%M-%S")
             result = cv2.VideoWriter(name + ".avi", cv2.VideoWriter_fourcc(*'MJPG'), 24.0, size)
@@ -176,7 +180,6 @@ def mainPoseDetection(cap, drawLineFlag, droneMode):
 
     if recordFlag:
         result.release()
-        print("stop recording")
     cv2.destroyAllWindows()
 
 
