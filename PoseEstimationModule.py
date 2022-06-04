@@ -3,11 +3,6 @@ import cv2
 import mediapipe as mp
 import time
 import math
-# Edited library component:
-# D:\GitHub\RoboticsLabProject\RoboticsLab\venv\Lib\site-packages\mediapipe\python\solutions\drawing_utils.py
-# commented error ValueError(f'Landmark index is out of range. Invalid connection 'f'from landmark #{start_idx} to landmark #{end_idx}.')
-# at line 161
-
 
 class poseDetector():
 
@@ -22,8 +17,6 @@ class poseDetector():
 
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
-        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon)
-        # self.pose = self.mpPose.Pose(self.mode, self.smooth, self.detectionCon, self.trackCon,min_detection_confidence,min_tracking_confidence)
         self.pose = self.mpPose.Pose()
 
     def findPose(self, img, draw=True):
@@ -49,38 +42,3 @@ class poseDetector():
         return self.lmList
 
 
-
-
-
-# def main():
-#     cap = cv2.VideoCapture('PexelsVideos/dancing.mp4')  # dancing video
-#     cap = cv2.VideoCapture('PexelsVideos/walking.mp4') # walking video
-#     cap = cv2.VideoCapture('PexelsVideos/lecture.mp4') # lecture video
-#     cap = cv2.VideoCapture(0) # Camputer Camera
-#     pTime = 0
-#     img = detector = poseDetector()
-#
-#     while True:
-#
-#         success, img = cap.read()
-#         detector.findPose(img)
-#         # detector.findPosition(img)
-#         lmList = detector.findPosition(img, draw=False)
-#         if len(lmList) != 0:
-#             print(lmList[14])
-#             cv2.circle(img, (lmList[14][1], lmList[14][2]), 3, (0, 0, 255), cv2.FILLED)
-#
-#
-#         cTime = time.time()
-#         fps = 1 / (cTime - pTime)
-#         pTime = cTime
-#
-#         cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
-#
-#
-#         cv2.imshow("Image", img)
-#         cv2.waitKey(1)
-#
-#
-# if __name__ == "__main__":
-#     main()
