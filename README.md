@@ -8,7 +8,7 @@
 ## Project description:
 Identify and acquire the main character in a scene with a real time, one lens's camera.
 Project files:
-1. `PoseEstimationModule.py` - Identify an object and find landmarks
+1. `PoseEstimationModule.py` - Identify an object and find landmarks 
 2. `PoseProject.py` - capture image, image object, and calculate object motion
 
 
