@@ -1,5 +1,5 @@
 # Robotics Lab - Tracking Camera Project
-**Haifa University Robotics Lab project.**
+**Haifa University - Robotics Lab project**
 
 ### Authors:
 * [Yaad Rebhun](https://github.com/YaadR)
@@ -75,11 +75,11 @@ Drawing perpendicular lines that maintain the pre borders of the frame, relative
 
 #### 3. Bounding box
 framing the boundaries of the detected object. Calculated by the maximum length between the figure's shoulders and the figure's waist.
-#### 4. Enquire object
+#### 4. From detection to acquire
 For the purpose of inquiry the character. Padding with zeros all parts of the image that don’t contain the identified object.
 at object detection, a counter ("adj") counts frames. As it find an object it crops a relative window, sized 1.8 times the figure bounding box size, pads the rest of the frame
 with zeros and 'feeds' the detection algorithm with the cropped frame at subsequent
-cycle .
+cycle.
 
 ![croped image](/MarkdownFiles/crop_image.png)
 
