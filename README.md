@@ -7,13 +7,13 @@
 
 ## Project description:
 Identify and acquire the main character in a scene with a real time, one lens's camera.
-The project is divided into 2 main files:
+Project files:
 1. `PoseEstimationModule.py` - Identify an object and find landmarks
 2. `PoseProject.py` - capture image, image object, and calculate object motion
 
 
 ## Run Me:
-IDE of choice: **PyCharm**
+IDE: **PyCharm**
 ### Installations:
 
 ```
@@ -22,7 +22,7 @@ pip install mediapipe
 pip install numpy
 ```
 
-To run the code on the tello drone you need to additionally install the [tello directory.](https://github.com/damiafuentes/DJITelloPy)
+To run the code on the tello drone, install [tello directory.](https://github.com/damiafuentes/DJITelloPy)
 
 ### Libraries:
 1. PoseEstimationModule.py :
@@ -30,21 +30,21 @@ To run the code on the tello drone you need to additionally install the [tello d
    * `time` - Synchronizes and tracks real-time processes
    * `Numpy` - Perform matrix operations on an image.
 2. PoseProject.py:
-   * `argv from sys` - Passing arguments to a program to interface with external devices.
-   * `opencv /cv2` - library of programming functions mainly aimed at real-time computer vision
+   * `argv from sys` - Passing arguments from external devices.
+   * `opencv /cv2` - Library of programming functions mainly aimed at real-time CV
    * `time` - Synchronizes and tracks real-time processes
-   * `PoseEstimationModule` – our module
+   * `PoseEstimationModule` – Our module
    * `Numpy` - Perform matrix operations on an image.
-   * `Datetime` – for record purposes
+   * `Datetime` – Record implementation
    * `Tello form djitellopy` – Tello drone API
 ### Arguments:
-The program recive 2 argoments as an input.
- * `argv[1]` – capture input. `0`= integrated camera; `1`= drone; `<file_path>`= read video file.
- * `argv[2]`- draw symbols over the input. `True`/`False`
+The program recive 2 input argoments.
+ * `argv[1]` – Capture input. `0`= Integrated camera; `1`= Drone; `<file_path>`= Read video file.
+ * `argv[2]`- Draw symbols over the input. `True`/`False`
 
 ### Basic interapts:
 #### Quit program:
-You can quit at any time by pressing the `Esc` button. If the program ran in ***drone mode*** the drone will land with the execution of this command.
+You can quit by pressing `Esc` button. If the program is at ***drone mode*** the drone will land with the execution of this command.
 #### Recording:
 The program has video recording capabilities. Given the recording command, a red circle mark appears in the upper right corner of the window.
 * `R` - start recording.
