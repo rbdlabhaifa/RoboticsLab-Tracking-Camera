@@ -1,4 +1,4 @@
-# Robotics Lab - Self Tracking Camera Project
+# Robotics Lab - Tracking Camera Project
 **University of Haifa Robotics Lab project.**
 
 ### Authors:
