@@ -1,5 +1,5 @@
 # Robotics Lab - Tracking Camera Project
-**University of Haifa Robotics Lab project.**
+**Haifa University Robotics Lab project.**
 
 ### Authors:
 * [Yaad Rebhun](https://github.com/YaadR)
